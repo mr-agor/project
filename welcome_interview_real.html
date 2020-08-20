@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A.I powered automated video interview to assess the candidate on various parameters including technical, logical and analytical ability.">
+    <meta name="author" content="video_interview">
+    <title>Video Interview</title>
+
+
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,600" rel="stylesheet">
+
+    <link href="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/css/menu.css" rel="stylesheet">
+    <link href="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/css/style.css" rel="stylesheet">
+    <link href="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/css/vendors.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/css/interview_clock.css">
+    <link href="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/css/custom.css" rel="stylesheet">
+    <script src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/js/modernizr.js"></script>
+
+</head>
+
+<body>
+
+<div id="preloader">
+    <div data-loader="circle-side"></div>
+</div>
+<div id="loader_form">
+    <div data-loader="circle-side-2"></div>
+</div>
+
+<style>
+    #container-cam {
+        margin: 0px auto;
+        width: 524px;
+        height: 400px;
+        /*border: 10px #333 solid;*/
+    }
+    #videoElement {
+        width: 524px;
+        height: 400px;
+        background-color: #666;
+    }
+    #overlay {
+        width: 524px;
+        height: 400px;
+        /*background-color: #666;*/
+    }
+</style>
+<div class="container-fluid full-height" id="hide_final">
+    <div class="row row-height">
+        <div class="col-lg-4 content-left" style="background-color: black;">
+            <div class="your-clock"></div>
+            <!--				<br>-->
+            <div class="row">
+                <div align="center">
+                    <video autoplay="true" width="95%" height="100%" id="ques_screen">
+                        <source id="ques_screen_src" src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/media/intro.mp4" type="video/mp4">
+                    </video></div>
+                <br>
+                <div>
+                    <div id="container-cam" style="position: relative;" align="center">
+                        <img src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/extra_graphics/camera_missing.png" width="75%" id="camera_missing" hidden>
+                        <video onloadedmetadata="draw_detection(this)" autoplay="true" id="videoElement"></video>
+                        <canvas id="overlay" style="position: absolute; top:0; left:0;" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8 content-right" id="start">
+            <div id="wizard_container">
+                <div id="top-wizard">
+                    <div id="progressbar"></div>
+                </div>
+                <form id="wrapped_new">
+                    <input id="website" name="website" type="text" value="">
+                    <div id="middle-wizard">
+                        <div class="step">
+                            <h3 class="main_question"><strong>1/10</strong>Please fill with your details</h3>
+                            <div class="form-group">
+                                <input type="text" name="first_name" class="form-control required" placeholder="First Name" onchange="if($(this).val().length>0){ update_f(true)} else { update_f(false)};">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="lastname" class="form-control" placeholder="Last Name">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control" placeholder="Your Email">
+                            </div>
+                            <div class="form-group">
+                                <div class="styled-select clearfix">
+                                    <select class="wide" name="Qualification">
+                                        <option value="">Your Qualification</option>
+                                        <option value="Europe">Graduate</option>
+                                        <option value="Asia">Post Graduate</option>
+                                        <option value="North America">Diploma</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <input type="text" name="age" class="form-control" placeholder="Age">
+                                    </div>
+                                </div>
+                                <div class="col-9">
+                                    <div class="form-group radio_input">
+                                        <label class="container_radio">Male
+                                            <input type="radio" name="gender" value="Male">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                        <label class="container_radio">Female
+                                            <input type="radio" name="gender" value="Female">
+                                            <span class="checkmark"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <h3 class="main_question"><strong>2/10</strong>SQL stands for?</h3>
+                            <div class="form-group">
+                                <label class="container_radio version_2">Statistical Query Language
+                                    <input type="radio" name="question_2" value="Statistical Query Language" class="required" onchange="getVals(this, 'question_2'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">Structured Query Language
+                                    <input type="radio" name="question_2" value="Structured Query Language" class="required" onchange="getVals(this, 'question_2'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">Superior Questions Lot
+                                    <input type="radio" name="question_2" value="Superior Questions Lot" class="required" onchange="getVals(this, 'question_2'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">Standard Query Lot
+                                    <input type="radio" name="question_2" value="Standard Query Lot" class="required" onchange="getVals(this, 'question_2'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <h3 class="main_question"><strong>3/10</strong>Which of the following is true about PHP?</h3>
+                            <div class="form-group">
+                                <label class="container_radio version_2">It is a server side scripting language
+                                    <input type="radio" name="question_3" value="It is a server side scripting language" class="required" onchange="getVals(this, 'question_3'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">It is client side scripting language
+                                    <input type="radio" name="question_3" value="It is client side scripting language" class="required" onchange="getVals(this, 'question_3'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">It is a Software
+                                    <input type="radio" name="question_3" value="It is a Software" class="required" onchange="getVals(this, 'question_3'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">It is a database
+                                    <input type="radio" name="question_3" value="It is a database" class="required" onchange="getVals(this, 'question_3'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <h3 class="main_question"><strong>4/10</strong>Which of the following problems should be solved using dynamic programming?</h3>
+                            <div class="form-group">
+                                <label class="container_radio version_2">Mergesort
+                                    <input type="radio" name="question_4" value="Mergesort" class="required" onchange="getVals(this, 'question_4'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">Binary search
+                                    <input type="radio" name="question_4" value="Binary search" class="required" onchange="getVals(this, 'question_4'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">Longest common subsequence
+                                    <input type="radio" name="question_4" value="Longest common subsequence" class="required" onchange="getVals(this, 'question_4'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">Quicksort
+                                    <input type="radio" name="question_4" value="Quicksort" class="required" onchange="getVals(this, 'question_4'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <h3 class="main_question"><strong>5/10</strong>Higher-order functions are not built into the</h3>
+                            <div class="form-group">
+                                <label class="container_radio version_2">structural language
+                                    <input type="radio" name="question_5" value="structural language" class="required" onchange="getVals(this, 'question_5'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">object oriented programming
+                                    <input type="radio" name="question_5" value="object oriented programming" class="required" onchange="getVals(this, 'question_5'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">JAVA
+                                    <input type="radio" name="question_5" value="JAVA" class="required" onchange="getVals(this, 'question_5'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">C++
+                                    <input type="radio" name="question_5" value="C++" class="required" onchange="getVals(this, 'question_5'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <h3 class="main_question"><strong>6/10</strong>Which of the following is not a CMS?</h3>
+                            <div class="form-group">
+                                <label class="container_radio version_2">WordPress
+                                    <input type="radio" name="question_6" value="WordPress" class="required" onchange="getVals(this, 'question_6'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">Drupal
+                                    <input type="radio" name="question_6" value="Drupal" class="required" onchange="getVals(this, 'question_6'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">Magneto
+                                    <input type="radio" name="question_6" value="Magneto" class="required" onchange="getVals(this, 'question_6'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">SAP
+                                    <input type="radio" name="question_6" value="SAP" class="required" onchange="getVals(this, 'question_6'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <h3 class="main_question"><strong>7/10</strong>Which of the following is true about Javascript?</h3>
+                            <div class="form-group">
+                                <label class="container_radio version_2">It is a server side scripting language
+                                    <input type="radio" name="question_7" value="It is a server side scripting language" class="required" onchange="getVals(this, 'question_7'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">It is client side scripting language
+                                    <input type="radio" name="question_7" value="It is client side scripting language" class="required" onchange="getVals(this, 'question_7'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">It is a Software
+                                    <input type="radio" name="question_7" value="It is a Software" class="required" onchange="getVals(this, 'question_7'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">It is a database
+                                    <input type="radio" name="question_7" value="It is a database" class="required" onchange="getVals(this, 'question_7'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <h3 class="main_question"><strong>8/10</strong>Which function is used to read a single character from the console in C++?</h3>
+                            <div class="form-group">
+                                <label class="container_radio version_2">cin.get(ch)
+                                    <input type="radio" name="question_8" value="cin.get(ch)" class="required" onchange="getVals(this, 'question_8'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">getline(ch)
+                                    <input type="radio" name="question_8" value="getline(ch)" class="required" onchange="getVals(this, 'question_8'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">read(ch)
+                                    <input type="radio" name="question_8" value="read(ch)" class="required" onchange="getVals(this, 'question_8'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">scanf(ch)
+                                    <input type="radio" name="question_8" value="scanf(ch)" class="required" onchange="getVals(this, 'question_8'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <h3 class="main_question"><strong>9/10</strong>Which concept allows you to reuse the written code?</h3>
+                            <div class="form-group">
+                                <label class="container_radio version_2">Encapsulation
+                                    <input type="radio" name="question_9" value="Encapsulation" class="required" onchange="getVals(this, 'question_9'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">Abstraction
+                                    <input type="radio" name="question_9" value="Abstraction" class="required" onchange="getVals(this, 'question_9'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">Inheritance
+                                    <input type="radio" name="question_9" value="Inheritance" class="required" onchange="getVals(this, 'question_9'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label class="container_radio version_2">Polymorphism
+                                    <input type="radio" name="question_9" value="Polymorphism" class="required" onchange="getVals(this, 'question_9'); update_f(true);">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="submit step">
+                            <h3 class="main_question"><strong>10/10</strong>Summary</h3>
+                            <div class="summary">
+                                <ul>
+                                    <li><strong>1</strong>
+                                        <h5>SQL stands for?</h5>
+                                        <p id="question_2"></p>
+                                    </li>
+                                    <li><strong>2</strong>
+                                        <h5>Which of the following is true about PHP?</h5>
+                                        <p id="question_3"></p>
+                                    </li>
+                                    <li><strong>3</strong>
+                                        <h5>Which of the following problems should be solved using dynamic programming?</h5>
+                                        <p id="question_4"></p>
+                                    </li>
+                                    <li><strong>4</strong>
+                                        <h5>Higher-order functions are not built into the</h5>
+                                        <p id="question_5"></p>
+                                    </li>
+                                    <li><strong>5</strong>
+                                        <h5>Which of the following is not a CMS?</h5>
+                                        <p id="question_6"></p>
+                                    </li>
+                                    <li><strong>6</strong>
+                                        <h5>Which of the following is true about Javascript?</h5>
+                                        <p id="question_7"></p>
+                                    </li>
+                                    <li><strong>7</strong>
+                                        <h5>Which function is used to read a single character from the console in C++?</h5>
+                                        <p id="question_8"></p>
+                                    </li>
+                                    <li><strong>8</strong>
+                                        <h5>Which concept allows you to reuse the written code?</h5>
+                                        <p id="question_9"></p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="bottom-wizard">
+                        <button type="button" name="backward" class="backward" id="click_prev">Prev</button>
+                        <button type="button" name="forward" class="forward" id="click_next">Next</button>
+                        <button type="submit" name="process" class="submit" id="submit_final">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid full-height" id="final_display" hidden>
+    <div class="row row-height" style="height: 100vh;">
+        <div class="col-lg-12 content-left">
+            <div class="content-left-wrapper">
+                <div>
+                    <figure><img src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/extra_graphics/check_final.png" width="30%" alt="" class="img-fluid"></figure>
+                    <h2>Your Interview Score is: <span id="interview_score">30</span></h2>
+                    <p style="font-size: 1.3rem;">Confidence Level: <span id="confidence_level">Good</span><br>Correct Answers: <span id="correct_ans">5</span><br>Wrong Answers: <span id="wrong_ans">3</span><br>Time Taken: <span id="time_taken">70</span></p>
+                    <a href="video_call.html" class="btn_1 rounded">Proceed to next round →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/js/jquery-3.2.1.min.js"></script>
+<script src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/js/common_scripts.min.js"></script>
+<script src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/js/velocity.min.js"></script>
+<script src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/js/functions.js"></script>
+<script src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/js/survey_func.js"></script>
+<script src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/js/interview_clock.min.js"></script>
+<script>var clock = $('.your-clock').FlipClock({});</script>
+<script src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/tensor_cnn/tensor_cnn.js"></script>
+<script src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/tensor_cnn/tensor_play.js"></script>
+</body>
+</html>

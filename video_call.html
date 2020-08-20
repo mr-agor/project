@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A.I powered automated chat and video interviews to assess the candidate on various parameters including the technical, logical and analytical ability.">
+    <meta name="author" content="video_interview">
+    <title>Video Interview</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,600" rel="stylesheet">
+    <link href="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/css/menu.css" rel="stylesheet">
+    <link href="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/css/style.css" rel="stylesheet">
+    <link href="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/css/vendors.css" rel="stylesheet">
+
+    <link href="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/css/custom.css" rel="stylesheet">
+
+    <script src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/js/modernizr.js"></script>
+
+</head>
+
+<body>
+
+<div id="preloader">
+    <div data-loader="circle-side"></div>
+</div><!-- /Preload -->
+
+<div id="loader_form">
+    <div data-loader="circle-side-2"></div>
+</div>
+
+<div class="container-fluid full-height">
+    <div class="row row-height" style="height: 100vh;">
+        <div class="col-lg-6 content-left">
+            <div class="content-left-wrapper">
+                <div>
+                    <video autoplay="true" id="videoElement"></video>
+                    <h2>Candidate
+                    </h2>
+                    <p>Keep your webcam turned on throughout the interview.</p>
+                    <div class="row">
+                        <div class="col-sm-6" style="margin-top: 20px; margin-bottom: 20px;">
+                            <a href="#" class="btn_1 rounded" style="display: inline;">Answer the Question →</a>
+                        </div>
+                        <div class="col-sm-6" style="margin-top: 20px; margin-bottom: 20px;">
+                            <a href="#" class="btn_1 rounded" style="display: inline;">Do not know →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 content-left">
+            <div class="content-left-wrapper">
+                <div>
+                    <video autoplay="true" id="remotevideoElement"></video>
+                    <h2>Interviewer</h2>
+                    <p>You are conducting the interview.</p>
+                    <div class="row">
+                        <div class="col-sm-6" style="margin-top: 20px; margin-bottom: 20px;">
+                            <a href="#" onclick="monitoring_start();" class="btn_1 rounded" style="display: inline;">Review Answer →</a>
+                        </div>
+                        <div class="col-sm-6" style="margin-top: 20px; margin-bottom: 20px;">
+                            <a href="#" class="btn_1 rounded" style="display: inline;">Generate Report →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/js/jquery-3.2.1.min.js"></script>
+<script src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/js/common_scripts.min.js"></script>
+<script src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/js/velocity.min.js"></script>
+<script src="https://d1fxj45sgc9t4v.cloudfront.net/ai_process/js/functions.js"></script>
+<script>
+    var video = document.querySelector("#videoElement");
+
+    if (navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+            .then(function (stream) {
+                video.srcObject = stream;
+            })
+            .catch(function (err0r) {
+                $("#videoElement").hide();
+                $("#overlay").hide();
+                $("#camera_missing").removeAttr('hidden');
+            });
+    }
+</script>
+
+<link rel="stylesheet" href="https://d1fxj45sgc9t4v.cloudfront.net/static/hiring-tour.min.css">
+<script src="https://d1fxj45sgc9t4v.cloudfront.net/static/hiring-tour.min.js" type="text/javascript"></script>
+<script>
+
+    function monitoring_start(){
+        iziToast.show({ title: 'Update', message: 'Consultation Started', position: 'bottomLeft', timeout: 1000, progressBar: false, onClosing: function () {monitor_check();} });
+        iziToast.show({iconUrl: 'https://icons8.github.io/flat-color-icons/svg/electronics.svg', close: false, title: 'A.I Live Monitoring',displayMode: 1,timeout: 60000, position: 'topCenter',transitionIn: 'flipInX',transitionOut: 'flipOutX', progressBarColor: 'rgb(0, 255, 184)', image: 'https://cdn.icon-icons.com/icons2/1371/PNG/512/robot02_90810.png',imageWidth: 70, layout: 2,iconColor: 'rgb(0, 255, 184)'});
+    }
+    function monitor_check () {let t = Math.floor(Math.random() * 4); if(t==1){monitor_pos();} else if(t==2){monitor_neg();} else{monitor_neu();}}
+    function monitor_pos () {iziToast.show({ title: 'Monitoring Status:', message: 'Positive', close: false, color: 'green', position: 'bottomLeft', timeout: 2000, progressBar: false, onClosing: function () {monitor_check();} });}
+    function monitor_neg () {iziToast.show({ title: 'Monitoring Status:', message: 'Negative', close: false, color: 'red', position: 'bottomLeft', timeout: 2000, progressBar: false, onClosing: function () {monitor_check();} });}
+    function monitor_neu () {iziToast.show({ title: 'Monitoring Status:', message: 'Neutral', close: false, color: 'blue', position: 'bottomLeft', timeout: 2000, progressBar: false, onClosing: function () {monitor_check();} });}
+    function monitor_status(){iziToast.show({ title: 'Monitoring Status:', message: 'Positive', close: false, color: 'green', position: 'bottomLeft', timeout: 2000, progressBar: false, onClosing: function () {iziToast.show({ title: 'Monitoring Status:', message: 'Neutral', close: false, color: 'blue', position: 'bottomLeft', timeout: 2000, progressBar: false, onClosing: function () {iziToast.show({ title: 'Monitoring Status:', message: 'Negative', close: false, color: 'red', position: 'bottomLeft', timeout: 2000, progressBar: false, onClosing: function () {monitor_status();} });} });} });}
+
+</script>
+
+<script src="https://cdn.agora.io/sdk/release/AgoraRTCSDK-3.1.1.js"></script>
+<script>
+    let handleFail = function(err){console.log("Error : ", err);};
+    let remoteContainer= document.getElementById("videoElement");
+    function addVideoStream(streamId){
+        let streamDiv=document.createElement("div"); streamDiv.id=streamId;
+        streamDiv.style.transform="rotateY(180deg)"; remoteContainer.appendChild(streamDiv);
+    }
+    function removeVideoStream (streamId) {
+        let remDiv = document.getElementById(streamId); if(remDiv) remDiv.parentNode.removeChild(remDiv);
+    }
+
+    let client = AgoraRTC.createClient({
+        mode: 'rtc',  codec: "vp8"
+    });
+
+    client.init("31e5a792e7ee43aaa2e6b7459c261c38",() => console.log("AgoraRTC client initialized") ,handleFail);
+    client.join(null,"any-channel",null, (uid)=>{
+    },handleFail);
+
+    client.join(null,"any-channel",null, (uid)=>{
+        let localStream = AgoraRTC.createStream({streamID: uid, audio: true, video: true, screen: false});
+        localStream.init(function() {
+            localStream.play('me');
+            client.publish(localStream, handleFail);
+        },handleFail);
+    },handleFail);
+
+    client.on('stream-added', function (evt) {
+        client.subscribe(evt.stream, handleFail);
+    });
+    client.on('stream-subscribed', function (evt) {
+        let stream = evt.stream;
+        let streamId = String(stream.getId());
+        addVideoStream(streamId);
+        stream.play(streamId);
+    });
+
+    client.on('stream-removed', (evt) => {
+        let stream = evt.stream;
+        let streamId = String(stream.getId());
+        stream.close();
+        removeVideoStream(streamId);
+    });
+    client.on('peer-leave', (evt) => {
+        let stream = evt.stream;
+        let streamId = String(stream.getId());
+        stream.close();
+        removeVideoStream(streamId);
+    });
+
+</script>
+</body>
+</html>
